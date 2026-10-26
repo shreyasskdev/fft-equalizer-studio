@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+exports/
+*.wav
+user_prefs.json

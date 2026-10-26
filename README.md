@@ -9,6 +9,7 @@ It processes audio in the frequency domain using Short-Time Fourier Transform (S
 ## 📸 Screenshot
 
 <!-- Paste your screenshot right below this line on GitHub (Ctrl+V) -->
+<img width="1250" height="740" alt="image" src="https://github.com/user-attachments/assets/d3b26af6-5733-47e6-ad02-f54f48d944eb" />
 
 
 

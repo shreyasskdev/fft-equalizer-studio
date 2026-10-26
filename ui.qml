@@ -9,9 +9,9 @@ ApplicationWindow {
     visible: true
     width: 1380
     height: 860
-    minimumWidth: 1120
+    minimumWidth: 1250
     minimumHeight: 740
-    title: "Audio Equalizer — FFT DSP Studio"
+    title: "FFT Equalizer Studio"
     color: "#09090B"
 
     // Desaturated / Muted shadcn/ui Tokens
@@ -377,6 +377,7 @@ ApplicationWindow {
                 spacing: 10
 
                 ColumnLayout {
+                    Layout.fillWidth: true
                     spacing: 2
                     RowLayout {
                         spacing: 8
@@ -390,29 +391,41 @@ ApplicationWindow {
                             font.pixelSize: 15
                             font.weight: Font.Bold
                         }
-                        Rectangle {
-                            height: 20
-                            width: dspBadge.implicitWidth + 12
-                            radius: 5
-                            color: root.bgMuted
-                            border.color: root.borderDefault
-                            Text {
-                                id: dspBadge
-                                anchors.centerIn: parent
-                                text: "DSP Micro Project"
-                                color: root.fgMuted
-                                font.pixelSize: 11
-                            }
-                        }
                     }
+
                     Text {
+                        id: statusTextItem
+                        Layout.fillWidth: true
                         text: backend ? backend.statusText : ""
                         color: root.fgMuted
                         font.pixelSize: 12
+                        elide: Text.ElideRight
+                        maximumLineCount: 1
+
+                        MouseArea {
+                            id: statusHover
+                            anchors.fill: parent
+                            hoverEnabled: true
+                        }
+
+                        ToolTip {
+                            visible: statusHover.containsMouse && statusTextItem.text.length > 0
+                            delay: 150
+                            text: statusTextItem.text
+                            contentItem: Text {
+                                text: statusTextItem.text
+                                color: root.fgPrimary
+                                font.pixelSize: 12
+                            }
+                            background: Rectangle {
+                                color: "#18181C"
+                                border.color: root.borderHover
+                                border.width: 1
+                                radius: 6
+                            }
+                        }
                     }
                 }
-
-                Item { Layout.fillWidth: true }
 
                 ComboBox {
                     id: micSelect
@@ -1041,7 +1054,7 @@ ApplicationWindow {
                                     if (framePts && framePts.length > 1) {
                                         ctx.beginPath()
                                         for (var i = 0; i < framePts.length; i++) {
-                                            var x = (i / (framePts.length)) * width
+                                            var x = (i / framePts.length) * width
                                             var y = midY - (framePts[i] * (height * 0.43))
                                             if (i === 0) ctx.moveTo(x, y)
                                             else ctx.lineTo(x, y)
@@ -1060,7 +1073,7 @@ ApplicationWindow {
                                     if (envPts && envPts.length > 1) {
                                         ctx.beginPath()
                                         for (var j = 0; j < envPts.length; j++) {
-                                            var wx = (j / (envPts.length - 1)) * width
+                                            var wx = (j / envPts.length) * width
                                             var wy = height - 6 - (envPts[j] * (height - 12))
                                             if (j === 0) ctx.moveTo(wx, wy)
                                             else ctx.lineTo(wx, wy)
